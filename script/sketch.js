@@ -1,5 +1,5 @@
-let originalWidth = 900; // 가로 길이를 3의 배수로 설정
-let originalHeight = 600; // 세로 길이를 2의 배수로 설정
+let originalWidth = 900;
+let originalHeight = 600;
 let aspectRatio = originalWidth / originalHeight;
 let eyes = [];
 let eyeShapes = ['circle', 'rectangle', 'triangle'];
@@ -62,19 +62,26 @@ class Particle {
 
   display() {
     fill(this.color);
+    push();
+    translate(this.x, this.y);
+    let angle = map(this.y, 0, height, 0, TWO_PI);
+    rotate(angle);
+
     beginShape();
     const numPoints = 5;
-    const angle = TWO_PI / numPoints;
-    const halfAngle = angle / 2.0;
-    for (let i = 0; i < TWO_PI; i += angle) {
-      let x = this.x + cos(i) * this.diameter;
-      let y = this.y + sin(i) * this.diameter;
+    const angleIncrement = TWO_PI / numPoints;
+    const halfAngle = angleIncrement / 2.0;
+    for (let i = 0; i < TWO_PI; i += angleIncrement) {
+      let x = cos(i) * this.diameter;
+      let y = sin(i) * this.diameter;
       vertex(x, y);
-      x = this.x + cos(i + halfAngle) * (this.diameter / 2);
-      y = this.y + sin(i + halfAngle) * (this.diameter / 2);
+      x = cos(i + halfAngle) * (this.diameter / 2);
+      y = sin(i + halfAngle) * (this.diameter / 2);
       vertex(x, y);
     }
     endShape(CLOSE);
+
+    pop();
   }
 }
 
@@ -84,7 +91,7 @@ function setup() {
     windowHeight,
     aspectRatio
   );
-  // createCanvas(canvasDimensions.w, canvasDimensions.h);
+  createCanvas(canvasDimensions.w, canvasDimensions.h);
   setCanvasContainer('canvas', 1, 1, true);
   background('#F0F0EA');
 
@@ -160,84 +167,3 @@ function mouseDragged() {
     particles.push(newParticle);
   }
 }
-
-//위는 미간 넓음 아래는 좁음
-
-// let originalWidth = 1000;
-// let originalHeight = 667;
-// let aspectRatio = originalWidth / originalHeight;
-// let eyes = []; // 눈 객체를 담을 배열
-
-// class Eye {
-//   constructor(x, y) {
-//     this.eyeX = x;
-//     this.eyeY = y;
-//   }
-
-//   drawEye() {
-//     fill(255);
-//     ellipse(this.eyeX, this.eyeY, 100);
-//   }
-
-//   drawPupil() {
-//     let dx = mouseX - this.eyeX;
-//     let dy = mouseY - this.eyeY;
-//     let angle = atan2(dy, dx);
-
-//     let eyeRadius = 25;
-//     let eyePosX = this.eyeX + cos(angle) * eyeRadius;
-//     let eyePosY = this.eyeY + sin(angle) * eyeRadius;
-
-//     fill(0);
-//     ellipse(eyePosX, eyePosY, 20);
-//   }
-// }
-
-// function setup() {
-//   let canvasDimensions = getCanvasDimensions(
-//     windowWidth,
-//     windowHeight,
-//     aspectRatio
-//   );
-//   createCanvas(canvasDimensions.w, canvasDimensions.h);
-//   background('#F0F0EA');
-
-//   // 눈 객체 생성 (두 개만 생성)
-//   let eye1 = new Eye(width / 2 - 50, height / 2); // 첫 번째 눈
-//   let eye2 = new Eye(width / 2 + 50, height / 2); // 두 번째 눈
-
-//   eyes.push(eye1, eye2);
-// }
-
-// function draw() {
-//   background('#f9c215');
-
-//   // 모든 눈 객체 그리기
-//   for (let i = 0; i < eyes.length; i++) {
-//     eyes[i].drawEye();
-//     eyes[i].drawPupil();
-//   }
-// }
-
-// function windowResized() {
-//   let canvasDimensions = getCanvasDimensions(
-//     windowWidth,
-//     windowHeight,
-//     aspectRatio
-//   );
-//   resizeCanvas(canvasDimensions.w, canvasDimensions.h);
-// }
-
-// function getCanvasDimensions(w, h, ratio) {
-//   if (w / h > ratio) {
-//     return {
-//       w: h * ratio,
-//       h: h,
-//     };
-//   } else {
-//     return {
-//       w: w,
-//       h: w / ratio,
-//     };
-//   }
-// }
