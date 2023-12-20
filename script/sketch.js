@@ -1,3 +1,5 @@
+//https://youtu.be/V6VEybBr3VQ?si=u1sQbo7pggN9igB3 을 참고
+
 let originalWidth = 900;
 let originalHeight = 600;
 let aspectRatio = originalWidth / originalHeight;
